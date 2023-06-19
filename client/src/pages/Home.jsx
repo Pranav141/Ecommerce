@@ -41,6 +41,9 @@ const Home = () => {
       <option value="">Sort ⚡</option>
       <option value="SORT_LOW_TO_HIGH">Sort Price Low To High📈</option>
       <option value="SORT_HIGH_TO_LOW">Sort Price High To Low📉</option>
+      <option value="SORT_A_TO_Z">Sort A To Z</option>
+      <option value="SORT_Z_TO_A">Sort Z To A</option>
+
     </Form.Select>
         <Container style={{borderLeft:"1px solid grey"}}>
      
