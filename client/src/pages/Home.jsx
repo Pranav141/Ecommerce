@@ -1,15 +1,22 @@
-import React, { useState } from 'react'
+import React, {  useState } from 'react'
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Cards from '../components/Cards';
 import Header from '../components/Header';
 import Form from 'react-bootstrap/Form';
-import Dropdown from 'react-bootstrap/Dropdown';
-
-const Home = ({ products, loading }) => {
+import { useProductContext} from '../components/ProductContext';
+  
+const Home = () => {
   const [search, setSearch] = useState("")
+  const info=useProductContext()
+  const state=info?.state
+  const productDispatch=info?.dispatch
+  const loading=state?.isLoading;
+  const products=state?.products;
+  const isError=state?.isError
+ 
   return (
-    <div>
+    <div>  
       <Header />
       <Form.Control
         type="text"
@@ -24,28 +31,28 @@ const Home = ({ products, loading }) => {
           <h4>
             Filter
           </h4>
-          <h6>
+          <h6> 
             Category
             <hr />
           </h6>
 
         </div> */}
-        <Dropdown>
-          <Dropdown.Toggle variant="primary" id="dropdown-basic">
-            Sort
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={e=>{}}>Sort Price Low to High</Dropdown.Item>
-            <Dropdown.Item onClick={e=>{}}>Sort Price High to Low</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-        <Container>
-
+        <Form.Select style={{height:"40px",width:"20%",margin:"0 5px"}} onChange={(e)=>{productDispatch({type:e.target.value})}}>
+      <option value="">Sort ⚡</option>
+      <option value="SORT_LOW_TO_HIGH">Sort Price Low To High📈</option>
+      <option value="SORT_HIGH_TO_LOW">Sort Price High To Low📉</option>
+    </Form.Select>
+        <Container style={{borderLeft:"1px solid grey"}}>
+     
           <Row xs={1} sm={1} md={3}>
-            {!loading && products?.map((product) =>
+            {isError?
+            <h3>Api Call Error</h3>:
+            loading?
+              <h3>Data is Loading</h3>:
+            products?.map((product,idx) =>
               product.title.toLowerCase().includes(search.toLowerCase()) &&
               (
-                <Cards product={product} />
+                <Cards product={product} key={idx}/>
               )
 
             )}
